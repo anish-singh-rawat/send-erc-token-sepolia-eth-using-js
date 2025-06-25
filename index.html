@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MetaMask Interaction</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.8.0/dist/ethers.umd.min.js"></script>
+  </head>
+  <body>
+    <h1>MetaMask Interaction Example</h1>
+    <button id="connectButton">Connect MetaMask</button>
+    <div id="account"></div>
+    <div id="balance"></div>
+
+    <script>
+      if (typeof window.ethereum !== "undefined") {
+        console.log("MetaMask is installed!");
+      } else {
+        alert("Please install MetaMask!");
+      }
+
+      document
+        .getElementById("connectButton")
+        .addEventListener("click", async () => {
+          try {
+            await window.ethereum.request({ method: "eth_requestAccounts" });
+            const amountToSend = "1";
+
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+
+            const receiver = "0x259B2BdaD6228bdC5Eb48c7A8c244f5F798113Dd";
+
+            const address = await signer.getAddress();
+            console.log("address : ", address);
+
+            const balance = await provider.getBalance(address);
+
+            const balanceInEth = ethers.utils.formatEther(balance);
+            console.log("balanceInEth : ", balanceInEth);
+            const sender = '0x260A5568d2002B8F601Fe1001BD2D93A212F087b'
+
+            const tokenAddress = "0xDFdA108391A1EDa23CB0f6546e9F9386E4227994";
+            const tokenAbi = [
+              {
+                constant: true,
+                inputs: [],
+                name: "name",
+                outputs: [{ name: "", type: "string" }],
+                payable: false,
+                stateMutability: "view",
+                type: "function",
+              },
+              {
+                constant: false,
+                inputs: [
+                  { name: "_spender", type: "address" },
+                  { name: "_value", type: "uint256" },
+                ],
+                name: "approve",
+                outputs: [{ name: "", type: "bool" }],
+                payable: false,
+                stateMutability: "nonpayable",
+                type: "function",
+              },
+              {
+                constant: true,
+                inputs: [],
+                name: "totalSupply",
+                outputs: [{ name: "", type: "uint256" }],
+                payable: false,
+                stateMutability: "view",
+                type: "function",
+              },
+              {
+                constant: false,
+                inputs: [
+                  { name: "_from", type: "address" },
+                  { name: "_to", type: "address" },
+                  { name: "_value", type: "uint256" },
+                ],
+                name: "transferFrom",
+                outputs: [{ name: "", type: "bool" }],
+                payable: false,
+                stateMutability: "nonpayable",
+                type: "function",
+              },
+              {
+                constant: true,
+                inputs: [],
+                name: "decimals",
+                outputs: [{ name: "", type: "uint8" }],
+                payable: false,
+                stateMutability: "view",
+                type: "function",
+              },
+              {
+                constant: false,
+                inputs: [
+                  { name: "_to", type: "address" },
+                  { name: "_value", type: "uint256" },
+                  { name: "_data", type: "bytes" },
+                ],
+                name: "transferAndCall",
+                outputs: [{ name: "success", type: "bool" }],
+                payable: false,
+                stateMutability: "nonpayable",
+                type: "function",
+              },
+              {
+                constant: false,
+                inputs: [
+                  { name: "_spender", type: "address" },
+                  { name: "_subtractedValue", type: "uint256" },
+                ],
+                name: "decreaseApproval",
+                outputs: [{ name: "success", type: "bool" }],
+                payable: false,
+                stateMutability: "nonpayable",
+                type: "function",
+              },
+              {
+                constant: true,
+                inputs: [{ name: "_owner", type: "address" }],
+                name: "balanceOf",
+                outputs: [{ name: "balance", type: "uint256" }],
+                payable: false,
+                stateMutability: "view",
+                type: "function",
+              },
+              {
+                constant: true,
+                inputs: [],
+                name: "symbol",
+                outputs: [{ name: "", type: "string" }],
+                payable: false,
+                stateMutability: "view",
+                type: "function",
+              },
+              {
+                constant: false,
+                inputs: [
+                  { name: "_to", type: "address" },
+                  { name: "_value", type: "uint256" },
+                ],
+                name: "transfer",
+                outputs: [{ name: "success", type: "bool" }],
+                payable: false,
+                stateMutability: "nonpayable",
+                type: "function",
+              },
+              {
+                constant: false,
+                inputs: [
+                  { name: "_spender", type: "address" },
+                  { name: "_addedValue", type: "uint256" },
+                ],
+                name: "increaseApproval",
+                outputs: [{ name: "success", type: "bool" }],
+                payable: false,
+                stateMutability: "nonpayable",
+                type: "function",
+              },
+              {
+                constant: true,
+                inputs: [
+                  { name: "_owner", type: "address" },
+                  { name: "_spender", type: "address" },
+                ],
+                name: "allowance",
+                outputs: [{ name: "remaining", type: "uint256" }],
+                payable: false,
+                stateMutability: "view",
+                type: "function",
+              },
+              {
+                inputs: [],
+                payable: false,
+                stateMutability: "nonpayable",
+                type: "constructor",
+              },
+              {
+                anonymous: false,
+                inputs: [
+                  { indexed: true, name: "from", type: "address" },
+                  { indexed: true, name: "to", type: "address" },
+                  { indexed: false, name: "value", type: "uint256" },
+                  { indexed: false, name: "data", type: "bytes" },
+                ],
+                name: "Transfer",
+                type: "event",
+              },
+              {
+                anonymous: false,
+                inputs: [
+                  { indexed: true, name: "owner", type: "address" },
+                  { indexed: true, name: "spender", type: "address" },
+                  { indexed: false, name: "value", type: "uint256" },
+                ],
+                name: "Approval",
+                type: "event",
+              },
+            ];
+
+            const contract = new ethers.Contract(
+              tokenAddress,
+              tokenAbi,
+              provider
+            );
+
+            const decimals = await contract.decimals();
+            const balances = await contract.balanceOf(sender);
+
+            console.log("balances : ",balances)
+            const contractWithSigner = contract.connect(signer);
+
+            const tx = await contractWithSigner.transfer(
+              receiver,
+              ethers.utils.parseUnits(amountToSend, decimals)
+            );
+            console.log("Transaction sent: ", tx);
+
+            console.log(signer);
+          } catch (error) {
+            console.log("error : ", error);
+          }
+        });
+    </script>
+  </body>
+</html>
