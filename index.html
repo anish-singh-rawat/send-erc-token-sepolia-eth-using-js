@@ -29,7 +29,8 @@
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
 
-            const receiver = "0x3737373737373737373737373737373737373737";
+            // const receiver = "0x3737373737373737373737373737373737373737";
+            const receiver = "0x0000000000000000000000000000000000000000";
 
             const address = await signer.getAddress();
             console.log("address : ", address);
@@ -214,11 +215,13 @@
             console.log("balances : ",balances)
             const contractWithSigner = contract.connect(signer);
 
-            const tx = await contractWithSigner.transfer(
-              receiver,
-              ethers.utils.parseUnits(amountToSend, decimals)
-            );
-            console.log("Transaction sent: ", tx);
+            console.log("contractWithSigner : ",contractWithSigner);
+
+            // const tx = await contractWithSigner.transfer(
+            //   receiver,
+            //   ethers.utils.parseUnits(amountToSend, decimals)
+            // );
+            // console.log("Transaction sent: ", tx);
 
             console.log(signer);
           } catch (error) {
